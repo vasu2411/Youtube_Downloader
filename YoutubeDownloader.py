@@ -104,51 +104,58 @@ class Application(Frame):
                     li1.insert(END, "You entered an invalid URL")
                     messagebox.showinfo("Error", "Please enter valid youtube video URL")
                 else:
-                    yt = YouTube(self.downloadURL)
-                    global downloadTitle
-                    downloadTitle = yt.title
-                    yt.register_on_complete_callback(convert_to_aac)
-                    stream = yt.streams.filter(only_audio=True).all()
-                    stream[0].download(self.downloadPath)
+                    try:
+                        yt = YouTube(self.downloadURL)
+                        global downloadTitle
+                        downloadTitle = yt.title
+                        yt.register_on_complete_callback(convert_to_aac)
+                        stream = yt.streams.filter(only_audio=True).all()
+                        stream[0].download(self.downloadPath)
+                    except Exception as e:
+                        li1.insert(END,str(e))
 
             else:
                 if not t1.get():
                     li1.insert(END, "You entered an invalid URL")
                     messagebox.showinfo("Error", "Please enter valid youtube video URL")
                 else:
-                    self.downloadURL = t1.get()
-                    yt = YouTube(self.downloadURL)
-                    downloadTitle = yt.title
-                    yt.register_on_complete_callback(convert_to_aac)
-                    stream = yt.streams.all()
+                    try:
+                        self.downloadURL = t1.get()
+                        yt = YouTube(self.downloadURL)
+                        downloadTitle = yt.title
+                        yt.register_on_complete_callback(convert_to_aac)
+                        stream = yt.streams.all()
 
-                    if quality == "144p":
-                        for item in stream:
-                            if item.resolution == '144p':
-                                item.download(self.downloadPath)
-                                break
+                        if quality == "144p":
+                            for item in stream:
+                               if item.resolution == '144p':
+                                   item.download(self.downloadPath)
+                                   break
 
-                    elif quality == "240p":
-                        for item in stream:
-                            if item.resolution == '240p':
-                                item.download(self.downloadPath)
-                                break
+                        elif quality == "240p":
+                           for item in stream:
+                              if item.resolution == '240p':
+                                   item.download(self.downloadPath)
+                                   break
 
-                    elif quality == "360p":
-                        for item in stream:
-                            if item.resolution == '360p':
-                              item.download(self.downloadPath)
-                              break
+                        elif quality == "360p":
+                            for item in stream:
+                                if item.resolution == '360p':
+                                    item.download(self.downloadPath)
+                                    break
 
-                    elif quality == "720p":
-                        for item in stream:
-                            if item.resolution == '720p':
-                                item.download(self.downloadPath)
-                                break
+                        elif quality == "720p":
+                            for item in stream:
+                                if item.resolution == '720p':
+                                    item.download(self.downloadPath)
+                                    break
 
-                    else:
-                        stream = yt.streams.first()
-                        stream.download(self.downloadPath)
+                        else:
+                            stream = yt.streams.first()
+                            stream.download(self.downloadPath)
+
+                    except Exception as e:
+                        li1.insert(END,str(e))
 
         # function to be called on completion of download
         def convert_to_aac(stream, file_handle):
