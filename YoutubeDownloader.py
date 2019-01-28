@@ -3,12 +3,13 @@ from tkinter import *
 from pytube import YouTube
 
 class Application(Frame):
-    downloadPath = "E:/"
+    downloadPath = "C:/YoutubeDownloader"
     downloadURL = ""
     downloadTitle = ""
     t2=""
     t1=""
     li1=""
+    loop_active=True
 
     #initialization
     def __init__(self,master=None):
@@ -93,10 +94,7 @@ class Application(Frame):
 
     #download function
     def download(self,type,quality):
-        print(type+" "+quality)
-        global li1
-
-        global downloadURL,downloadPath
+        global li1,downloadURL,downloadPath
 
         def callback():
             if(type=="audio"):
